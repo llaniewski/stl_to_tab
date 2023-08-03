@@ -97,20 +97,11 @@ public:
     }
 };
 
-
-int main () {
-    STL stl;
-    stl.load("/home/llaniewski/Downloads/Sample 0.stl");
-    STLtoTAB tab;
-    tab.load(stl.tri);
-    printf("Done.\n");
-}
-
 #include <Rcpp.h>
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-NumericMatrix Fun(std::string filename) {
+NumericMatrix read_stl_to_tab(std::string filename) {
     STL stl;
     stl.load(filename);
     STLtoTAB tab;
