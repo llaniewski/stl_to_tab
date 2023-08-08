@@ -57,8 +57,8 @@ public:
             if (t.p2[1] > my) my = t.p2[1];
             if (t.p3[1] > my) my = t.p3[1];
         }
-        nx = mx / dx + 1;
-        ny = my / dy + 1;
+        nx = round(mx / dx) + 1;
+        ny = round(my / dy) + 1;
         printf(" NX: %d NY: %d\n", nx,ny);
         tab.resize(nx*ny, NAN);
         for (auto t : tri) {
