@@ -2,9 +2,13 @@ setwd("~/cwork/stl_tab/")
 rm(list=ls())
 scl = function(img) (img-min(img))/(max(img)-min(img))
 
-load("~/cwork/stl_tab/sample_2_mag10.Rdata")
+case  = "sample_1"
+case1 = paste0(case, "_mag10")
+case2 = paste0(case, "_mag40")
+
+load(paste0("~/cwork/stl_tab/",case1,".Rdata"))
 tab1 = tab
-load("~/cwork/stl_tab/sample_2_mag40.Rdata")
+load(paste0("~/cwork/stl_tab/",case2,".Rdata"))
 tab2 = tab
 rm(tab)
 
@@ -38,22 +42,25 @@ yshift = col(ret)[i] - 1
 img = scl(img)
 img[xshift+1+(-50:50),yshift+1] = 0
 img[xshift+1,yshift+1+(-50:50)] = 0
-png::writePNG(scl(img),"test0.png")
+png::writePNG(scl(img),paste0(case, "_shift.png"))
 
-img = tab1
-png::writePNG(img/max(img),"test1.png")
+img = scl(tab1)
+k=8
+img[xshift+seq_len(nrow(tab2_s)),yshift+c(-k:k,-k:k+ncol(tab2_s))] = 0
+img[xshift+c(-k:k,-k:k+nrow(tab2_s)),yshift+seq_len(ncol(tab2_s))] = 0
+png::writePNG(scl(img),paste0(case1, ".png"))
 
 tab2_sbs = tab2_sb[
   (seq_len(nrow(tab2_sb))-xshift-1) %% nrow(tab2_sb) + 1,
   (seq_len(ncol(tab2_sb))-yshift-1) %% ncol(tab2_sb) + 1]
 img = tab2_sbs
-png::writePNG(scl(img),"test2.png")
+png::writePNG(scl(img),paste0(case2, "_big.png"))
 
 tab1_sel = tab1[seq_len(nrow(tab2_s))+xshift,seq_len(ncol(tab2_s))+yshift]
 img = tab1_sel
-png::writePNG(scl(img),"test_s1.png")
+png::writePNG(scl(img),paste0(case1, "_cut.png"))
 img = tab2
-png::writePNG(scl(img),"test_s2.png")
+png::writePNG(scl(img),paste0(case2, ".png"))
 
 img = tab1_sel - tab2_s
 png::writePNG(scl(img),"test_s_diff.png")
@@ -91,3 +98,7 @@ plot(tab2_s[,30]+zshift)
 lines(tab1_sel[,30])
 
 mean(tab2_s+zshift - tab1_sel)
+
+
+dim(tab1)*dx
+dim(tab2)*dx/4

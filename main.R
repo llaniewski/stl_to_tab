@@ -9,7 +9,8 @@ numpy_support = import("vtk.util.numpy_support")
 Rcpp::sourceCpp("main.cpp")
 
 #samples=c("sample_0","sample_1_mag10","sample_1_mag40")
-samples=c("sample_2_mag10","sample_2_mag40")
+#samples=c("sample_2_mag10","sample_2_mag40")
+samples=c("sample_3_mag10")
 
 for (sample in samples) {
 
